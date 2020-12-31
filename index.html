@@ -1,0 +1,219 @@
+<head>
+  <meta charset="utf-8">
+  <title>聖經堡壘</title>
+</head>
+<button class="generate number">?</button>
+
+<!--<form class="options">-->
+<!--  <legend>Options</legend>-->
+
+<!--  <label for="min">Min</label>-->k
+<!--  <input type="number" value="0" id="min" name="min">-->
+
+<!--  <label for="max">Max</label>-->
+<!--  <input type="number" value="10" id="max" name="max">-->
+<!--</form>-->
+<br><br><br><br><br>
+<div>
+  <hr>
+  <b style="font-size: xx-large">
+    <span id="Q">聖經堡壘</span>
+  </b>
+  <br>
+  <br><br>
+  <details id="dtl">
+    <summary>Answer</summary>
+    <blockquote>
+      <p><span id="A"></span></p>
+    </blockquote>
+  </details>
+  <hr>
+</div>
+<style>
+  @import url(https://fonts.googleapis.com/css?family=Exo+2:400,900);
+
+  html {
+    height: 100%;
+    background: radial-gradient(circle, #fff 20%, #ccc);
+    background-size: cover;
+  }
+
+  body {
+    font-family: "Exo 2", sans-serif;
+  }
+
+  .generate {
+    /* Remove button styles */
+    border: none;
+    background: transparent;
+    outline: none;
+    overflow: none;
+
+    /* Make 'clickable' */
+    cursor: pointer;
+  }
+
+  .number {
+    text-shadow: 0 0 5px #bbb;
+
+    /* Make it big */
+    font-weight: 900;
+    font-size: 250px;
+
+    /* Center it */
+    width: 50%;
+    min-height: 50%;
+    overflow: auto;
+    margin: auto;
+    position: absolute;
+    top: 0; left: 0; bottom: 0; right: 0;
+  }
+
+  .options {
+    background-color: #555;
+    border-radius: 5px;
+    color: #efefef;
+    padding: 10px 20px;
+    position: absolute;
+    cursor: pointer;
+
+  input, label {
+    display: none;
+  }
+
+  &:hover input, &:hover label {
+                    display: inline;
+                  }
+
+  input {
+    background-color: #efefef;
+    padding: 10px;
+    margin: 5px 15px;
+  }
+  }
+</style>
+
+<script>
+  /**
+   * This object generates a random number
+   */
+  var ck = []
+  var generator = {
+    min: 1,
+    max: 55,
+
+    /**
+     * Generate a random number
+     */
+    getRandom: function () {
+      var dtl = document.getElementById('dtl');
+      dtl.open = false
+      var num = Math.round(Math.random() * (this.max - this.min) + this.min);
+      if (ck.length == 55){
+        return '通關'
+      }
+      else if (ck.includes(num)){
+        return generator.getRandom()
+      }
+      ck.push(num)
+      return num
+    },
+
+    /**
+     * Set the lower number boundry
+     */
+    setMin: function (newMin) {
+      this.min = parseInt(newMin);
+    },
+
+    /**
+     * Set the higher number boundry
+     */
+    setMax: function (newMax) {
+      this.max = parseInt(newMax);
+    }
+  };
+
+  var number = document.querySelector('.number');
+  var Q = document.getElementById('Q');
+  var A = document.getElementById('A');
+  var dct = {'1':{'Q':'Q1.大衛為了逃避掃羅的追殺，投奔哪個非利士王？', 'A':'亞吉'},
+             '2':{'Q':'Q2.亞吉賜哪座城給大衛？','A':'洗革拉'},
+             '3':{'Q':'Q3.掃羅死前，因為非利士人的攻擊曾去什麼地方求問女巫？','A':'隱多珥'},
+             '4':{'Q':'Q4.為什麼掃羅要求問女巫？','A':'神棄絕他，撒母耳先知又死了'},
+             '5':{'Q':'Q5.女巫為掃羅召了誰上來？','A':'魔鬼偽裝的假撒母耳'},
+             '6':{'Q':'Q6.魔鬼偽裝的撒母耳對掃羅說什麼？','A':'神已經將國賜給大衛，至於掃羅和他的兒子要死在非利士人手中'},
+             '7':{'Q':'Q7.大衛有沒有和非利士人一同去攻打以色列人？','A':'沒有，因為非利士的首領怕大衛在前線反叛'},
+             '8':{'Q':'Q8.大衛回洗革拉城之後，發現什麼事？','A':'城被亞瑪力人燒燬，妻子兒女全被捉走'},
+             '9':{'Q':'Q9.掃羅和他的兒子戰死在什麼地方？','A':'基利波'},
+             '10':{'Q':'Q10.說出兩個神棄絕掃羅的原因？','A':'侵越祭司的職分；違背神的命令；追殺無辜的大衛'},
+             '11':{'Q':'Q11.大衛在哪裡做王七年，才統一全國？','A':'希伯崙'},
+             '12':{'Q':'Q12.大衛選中哪兒做全國的首都？','A':'耶路撒冷'},
+             '13':{'Q':'Q13.大衛住在耶路撒冷後，所做第一件事是什麼？','A':'迎接約櫃進城'},
+             '14':{'Q':'Q14.大衛曾經為神立下什麼志向？','A':'建造聖殿'},
+             '15':{'Q':'Q15.神為什麼不答應大衛建造聖殿？','A':'他在戰場上殺死太多人'},
+             '16':{'Q':'Q16.大衛建造聖殿的心願，由誰來完成？','A':'所羅門'},
+             '17':{'Q':'Q17.所羅門王的媽媽叫什麼名字？','A':'拔示巴'},
+             '18':{'Q':'Q18.大衛一生中，犯了什麼大罪？','A':'借刀殺死烏利雅並搶奪他的太太拔示巴'},
+             '19':{'Q':'Q19.神叫哪個先知去責備大衛？','A':'拿單'},
+             '20':{'Q':'Q20.大衛被拿單先知責備之後，表現出什麼態度？','A':'勇敢又坦白地認錯，一點也沒有強辯'},
+             '21':{'Q':'Q21.神怎麼處罰大衛？','A':'和拔示巴生的兒子死掉；兒子押沙龍叛變追殺大衛；家中不平安'},
+             '22':{'Q':'Q22.大衛年老時，為什麼肯獻上自己的財物來建殿？','A':'他認為財物本來就是神所賞賜的'},
+             '23':{'Q':'Q23.約拿單的兒子叫什麼名字？','A':'米非波設'},
+             '24':{'Q':'Q24.大衛當王後，怎麼對待約拿單的兒子米非波設？','A':'接他到王宮，待他像王子，和他一同吃飯，又把掃羅的財產還給他'},
+             '25':{'Q':'Q25.誰是大衛最疼愛的兒子？','A':'押沙龍'},
+             '26':{'Q':'Q26.大衛的兒子押沙龍如何讓大衛傷心？','A':'在希伯崙做王、又追殺大衛'},
+             '27':{'Q':'Q27.殘忍的押沙龍最後被誰用槍刺死？','A':'約押元帥'},
+             '28':{'Q':'Q28.大衛知道押沙龍死亡的消息，表現什麼態度？','A':'又哭又叫，十分傷心'},
+             '29':{'Q':'Q29.勇敢的三勇士曾經闖過非利士人的營房，到哪裡為大衛打水？','A':'伯利恆'},
+             '30':{'Q':'Q30.大衛為什麼不肯喝三勇士打來的水？','A':'因為水是他們用生命換來的'},
+             '31':{'Q':'Q31.說出大衛一生中，兩個愛的故事。','A':'善待米非波設、容忍不孝子押沙龍、體諒三勇士的忠心。'},
+             '32':{'Q':'Q32.所羅門王在哪裡建造聖殿？','A':'摩利亞山'},
+             '33':{'Q':'Q33.說出會幕的構造。','A':'外院、聖所和至聖所'},
+             '34':{'Q':'Q34.約櫃擺在聖殿的什麼地方？','A':'至聖所'},
+             '35':{'Q':'Q35.所羅門王曾要求誰提供建造聖殿的木材？','A':'推羅王希蘭'},
+             '36':{'Q':'Q36.所羅門王花費多少時間完成聖殿？','A':'七年半'},
+             '37':{'Q':'Q37.聖殿的門朝哪個方向？','A':'東邊'},
+             '38':{'Q':'Q38.殿中的雕刻和器皿，由誰設計指導的？','A':'戶蘭'},
+             '39':{'Q':'Q39獻堂典禮選在什麼時候？','A':'住棚節的前一週'},
+             '40':{'Q':'Q40.獻堂典禮共舉行多少天？','A':'十四天'},
+             '41':{'Q':'Q41.獻堂典禮中神的榮光遮蓋聖殿，表示什麼？','A':'神歡喜的接受聖殿和祭物，並樂意與他們同在'},
+             '42':{'Q':'Q42.所羅門年輕時，曾在基遍向神求什麼？','A':'智慧'},
+             '43':{'Q':'Q43.神除了答應賜給所羅門智慧外，又加添什麼？','A':'富足、尊榮和財富'},
+             '44':{'Q':'Q44.說出所羅門兩項智慧的表現。','A':'利用母親的天性找出真媽媽；從日常生活中領悟做人做事的到理，講解說明各種植物、動物的天性'},
+             '45':{'Q':'Q45.哪個女王特地到耶路撒冷見所羅門王？','A':'示巴。'},
+             '46':{'Q':'Q46.所羅門王年老時，犯了什麼罪？','A':'拜偶像、離開神'},
+             '47':{'Q':'Q47.為什麼所羅門王會犯罪？','A':'取太多外邦太太，被他們引誘'},
+             '48':{'Q':'Q48.神怎麼審判所羅門？','A':'預言國家要分裂，大衛家只擁能有兩支派'},
+             '49':{'Q':'Q49.誰指示耶羅波安將來要管理以色列十個支派？','A':'亞希雅先知'},
+             '50':{'Q':'Q50.亞希雅先知用什麼方法指示耶羅波安將會做王？','A':'把衣服撕成十二片，叫耶羅波安拿十片'},
+             '51':{'Q':'Q51.所羅門王死後，誰接替他做王？','A':'羅波安'},
+             '52':{'Q':'Q52.羅波安在示劍舉行就職典禮時，誰替以色列人請願？','A':'耶羅波安'},
+             '53':{'Q':'Q53.三天後，羅波安照誰的回答以色列人？','A':'少年臣子'},
+             '54':{'Q':'Q54.羅波安說完之後，發生什麼事？','A':'以色列國分裂，有十個支派跟著耶羅波安走了'},
+             '55':{'Q':'Q55.分裂之後的以色列國，分成哪兩個國家？','A':'北邊以色列國，南邊猶大國'},
+            }
+
+  document.querySelector('.generate').onclick = function () {
+    number.textContent = generator.getRandom();
+    if (dct[number.textContent]) {
+      Q.textContent = dct[number.textContent]['Q']
+      A.textContent = dct[number.textContent]['A']
+    }
+    else {
+      Q.textContent ='ERROR'
+      A.textContent = '404'
+    }
+  };
+
+  // var options = document.querySelector('.options');
+
+  // options.querySelector('#min').onchange = function () {
+  //   generator.setMin(this.value);
+  // };
+  //
+  // options.querySelector('#max').onchange = function () {
+  //   generator.setMax(this.value);
+  // };
+
+</script>

@@ -91,12 +91,138 @@
     margin: 5px 15px;
   }
   }
+  .spinner {
+    margin: 100px auto;
+    width: 100px;
+    height: 100px;
+    position: relative;
+    display: none;
+  }
+
+  .container1 > div, .container2 > div, .container3 > div {
+    width: 16px;
+    height: 16px;
+    border: 5px solid #333;
+    background-color: #fff;
+
+    border-radius: 100%;
+    position: absolute;
+    -webkit-animation: bouncedelay 1.2s infinite ease-in-out;
+    animation: bouncedelay 1.2s infinite ease-in-out;
+    /* Prevent first frame from flickering when animation starts */
+    -webkit-animation-fill-mode: both;
+    animation-fill-mode: both;
+  }
+
+  .spinner .spinner-container {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+  }
+
+  .container2 {
+    -webkit-transform: rotateZ(45deg);
+    transform: rotateZ(45deg);
+  }
+
+
+  .circle1 { top: 0; left: 0; }
+  .circle2 { top: 0; right: 0; }
+  .circle3 { right: 0; bottom: 0; }
+  .circle4 { left: 0; bottom: 0; }
+
+  .container2 .circle1 {
+    -webkit-animation-delay: -1.1s;
+    animation-delay: -1.1s;
+  }
+
+
+
+  .container1 .circle2 {
+    -webkit-animation-delay: -0.9s;
+    animation-delay: -0.9s;
+  }
+
+  .container2 .circle2 {
+    -webkit-animation-delay: -0.8s;
+    animation-delay: -0.8s;
+  }
+
+
+
+  .container1 .circle3 {
+    -webkit-animation-delay: -0.6s;
+    animation-delay: -0.6s;
+  }
+
+  .container2 .circle3 {
+    -webkit-animation-delay: -0.5s;
+    animation-delay: -0.5s;
+  }
+
+
+
+  .container1 .circle4 {
+    -webkit-animation-delay: -0.3s;
+    animation-delay: -0.3s;
+  }
+
+  .container2 .circle4 {
+    -webkit-animation-delay: -0.2s;
+    animation-delay: -0.2s;
+  }
+
+
+  @-webkit-keyframes bouncedelay {
+    0%, 80%, 100% { -webkit-transform: scale(0.4) }
+    40% { -webkit-transform: scale(1.0) }
+  }
+
+  @keyframes bouncedelay {
+    0%, 80%, 100% {
+      transform: scale(0.0);
+      -webkit-transform: scale(0.25);
+    } 40% {
+        transform: scale(1.0);
+        -webkit-transform: scale(1.0);
+      }
+  }
 </style>
 
 <script>
   /**
    * This object generates a random number
    */
+  //在页面未加载完毕之前显示的loading Html自定义内容
+  var _LoadingHtml = '<div class="spinner" id="loadingDiv">\n' +
+                     '  <div class="spinner-container container1">\n' +
+                     '    <div class="circle1"></div>\n' +
+                     '    <div class="circle2"></div>\n' +
+                     '    <div class="circle3"></div>\n' +
+                     '    <div class="circle4"></div>\n' +
+                     '  </div>\n' +
+                     '  <div class="spinner-container container2">\n' +
+                     '    <div class="circle1"></div>\n' +
+                     '    <div class="circle2"></div>\n' +
+                     '    <div class="circle3"></div>\n' +
+                     '    <div class="circle4"></div>\n' +
+                     '  </div>\n' +
+                     '\n' +
+                     '</div>';
+  //呈现loading效果
+  document.write(_LoadingHtml);
+
+  //移除loading效果
+  function completeLoading() {
+    document.getElementById("loadingDiv").style.display="none";
+  }
+  //展示loading效果
+  function showLoading()
+  {
+
+    document.getElementById("loadingDiv").style.display="block";
+  }
+
   var ck = []
   var generator = {
     min: 1,
@@ -106,9 +232,8 @@
      * Generate a random number
      */
     getRandom: function () {
-      var dtl = document.getElementById('dtl');
-      dtl.open = false
       var num = Math.round(Math.random() * (this.max - this.min) + this.min);
+      completeLoading()
       if (ck.length == 55){
         return '通關'
       }
@@ -193,17 +318,25 @@
              '54':{'Q':'Q54.羅波安說完之後，發生什麼事？','A':'以色列國分裂，有十個支派跟著耶羅波安走了'},
              '55':{'Q':'Q55.分裂之後的以色列國，分成哪兩個國家？','A':'北邊以色列國，南邊猶大國'},
             }
+ function setNumber() {
+   number.textContent = generator.getRandom();
+   if (dct[number.textContent]) {
+     Q.textContent = dct[number.textContent]['Q']
+     A.textContent = dct[number.textContent]['A']
+   }
+   else {
+     Q.textContent ='ERROR'
+     A.textContent = '404'
+   }
+ }
 
   document.querySelector('.generate').onclick = function () {
-    number.textContent = generator.getRandom();
-    if (dct[number.textContent]) {
-      Q.textContent = dct[number.textContent]['Q']
-      A.textContent = dct[number.textContent]['A']
-    }
-    else {
-      Q.textContent ='ERROR'
-      A.textContent = '404'
-    }
+    showLoading()
+    number.textContent = '';
+    var dtl = document.getElementById('dtl');
+    dtl.open = false
+    setTimeout(setNumber, 1000)
+
   };
 
   // var options = document.querySelector('.options');
